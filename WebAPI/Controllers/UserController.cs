@@ -21,9 +21,10 @@ namespace WebAPI.Controllers
 
         [HttpGet]
 
-        public List<UserModel> GetAllUser()
+        public IActionResult GetAllUser()
         {
-            return _User.GetAllUser();
+            
+            return Ok(_User.GetAll());
         }
     }
 }

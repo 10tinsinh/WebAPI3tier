@@ -12,8 +12,18 @@ namespace DAL
     {
         public List<User> GetAllUser()
         {
-            var user = new MyDbContext();
-            return user.Users.ToList();
+            var db = new MyDbContext();
+            var User = db.Users.Select(us => new User 
+            {
+                Id = us.Id,
+                Username = us.Username,
+                Password = us.Password,
+                Fullname = us.Fullname,
+                UserStatus = us.UserStatus,
+                Email = us.Email
+
+            });
+            return User.ToList();
         }
     }
 }

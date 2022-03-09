@@ -3,28 +3,37 @@ using System.Collections.Generic;
 using WebAPI.Repository.Entities;
 using BLL.Models;
 using AutoMapper;
+using System.Linq;
 
 namespace BLL
 {
     public class UserBLL
     {
         private DAL.UserDAL _user;
-        private Mapper _UserMapper;
+     
 
         public UserBLL()
         {
             _user = new DAL.UserDAL();
-            var _configUser = new MapperConfiguration(cfg => cfg.CreateMap<User, UserModel>().ReverseMap());
-            _UserMapper = new Mapper(_configUser);
+        
         }
 
-        public List<UserModel> GetAllUser()
+       
+
+        public List<UserModel> GetAll()
         {
-            List<User> usesfromdb = _user.GetAllUser();
+            var user = _user.GetAllUser().Select(u => new UserModel
+            {
+                Id = u.Id,
+                Username = u.Username,
+                Password = u.Password,
+                Fullname = u.Fullname,
+                UserStatus = u.UserStatus,
+                Email = u.Email
 
-            List<UserModel> userModels = _UserMapper.Map<List<User>, List<UserModel>>(usesfromdb);
-
-            return userModels;
+            });
+            return user.ToList();
+           
         }
     }
 }
